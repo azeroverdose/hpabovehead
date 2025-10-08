@@ -10,7 +10,11 @@ import net.runelite.client.ui.overlay.OverlayPriority;
 import net.runelite.api.Skill;
 
 import javax.inject.Inject;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 
 public class HPAboveHeadOverlay extends Overlay
 {

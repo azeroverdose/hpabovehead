@@ -1,8 +1,13 @@
 package com.hpabovehead;
 
-import net.runelite.client.config.*;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Config;
+import net.runelite.client.config.Alpha;
+import net.runelite.client.config.Range;
 
-import java.awt.*;
+import java.awt.Color;
 
 @ConfigGroup("settings")
 public interface HPAboveHeadConfig extends Config
