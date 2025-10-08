@@ -31,7 +31,13 @@ public class HPAboveHeadOverlay extends Overlay
     public Dimension render(Graphics2D g)
     {
         Player localPlayer = client.getLocalPlayer();
-        if (localPlayer == null || localPlayer.getHealthScale() <= 0)
+        if (localPlayer == null)
+        {
+            return null;
+        }
+
+        // Check if we should show HP - either always show is enabled, or player is in combat (health scale > 0)
+        if (!config.alwaysShow() && localPlayer.getHealthScale() <= 0)
         {
             return null;
         }
@@ -74,11 +80,40 @@ public class HPAboveHeadOverlay extends Overlay
             g.setColor(Color.BLACK);
             g.drawString(text, x + 1, y + 1);
 
-            // HP text
-            g.setColor(config.color());
+            // HP text with color thresholds
+            Color textColor = getTextColor(currentHp, maxHp);
+            g.setColor(textColor);
             g.drawString(text, x, y);
         }
 
         return null;
+    }
+
+    /**
+     * Determines the text color based on HP percentage and threshold settings
+     */
+    private Color getTextColor(int currentHp, int maxHp)
+    {
+        if (!config.useColorThresholds())
+        {
+            return config.color();
+        }
+
+        // Calculate HP percentage
+        double hpPercentage = (double) currentHp / maxHp * 100;
+
+        // Apply color thresholds (low has priority over mid)
+        if (hpPercentage <= config.lowThreshold())
+        {
+            return config.lowColor();
+        }
+        else if (hpPercentage <= config.midThreshold())
+        {
+            return config.midColor();
+        }
+        else
+        {
+            return config.color();
+        }
     }
 }
